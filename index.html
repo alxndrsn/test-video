@@ -2,8 +2,28 @@
 	<head>
 	</head>
 	<body>
-		<div>
+		<div id="standard">
+			<h1>Standard video</h1>
 			<video src="vid.mp4" controls></video>
 		</div>
+
+		<div id="objurl">
+			<h1>Object URL video</h1>
+			<video controls id="objurl-video"></video>
+		</div>
+
+		<script>
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function(event) {
+				if(request.readyState === XMLHttpRequest.DONE) {
+					var blob = request.response;
+					var url = URL.createObjectURL(blob);
+					document.getElementById('objurl-video').setAttribute('src', url);
+				}
+			}
+			request.responseType = 'blob';
+			request.open('GET', './vid.mp4', true);
+			request.send();
+		</script>
 	</body>
 </html>
