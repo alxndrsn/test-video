@@ -13,20 +13,17 @@
 		</div>
 
 		<script>
-			var isChrome = !!window.webkitURL;
-			var __URL__ = window.webkitURL || window.URL;
-
 			var request = new XMLHttpRequest();
 			request.onreadystatechange = function(event) {
 				if(request.readyState === XMLHttpRequest.DONE) {
 					var blob = request.response;
-					var url = __URL__.createObjectURL(blob);
+					var url = URL.createObjectURL(blob);
 					document.getElementById('objurl-video').setAttribute('src', url);
 				}
 			}
 			request.responseType = 'blob';
 			request.open('GET', './vid.mp4', true);
-			if(!isChrome) request.send();
+			request.send();
 		</script>
 	</body>
 </html>
