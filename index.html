@@ -3,6 +3,7 @@
 		<style>
 			#timer-anim {
 				border: solid black 2px;
+				width:100%;
 			}
 			div.audio, div.video {
 				display: none;
@@ -17,7 +18,8 @@
 	<body>
 		<div class="anim">
 			<h2>Animation</h2>
-			<canvas id="timer-anim" width="460" height="460"></canvas>
+			<audio id="standard-audio" src="./aud.mp3"></audio>
+			<canvas id="timer-anim" width="320" height="320"></canvas>
 			<br>
 			<button onclick="startAnim()">Start animation!</startAnim>
 		</div>
@@ -31,7 +33,6 @@
 
 			<div class="standard">
 				<h3>2. Standard audio</h3>
-				<audio id="standard-audio" src="./aud.mp3" controls></audio>
 			</div>
 
 			<div class="click">
