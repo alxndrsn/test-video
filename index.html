@@ -99,7 +99,10 @@
 			    centre = { x: canvasW/2, y: canvasH/2 },
 			    bigR = Math.min(canvasW, canvasH) / 2,
 			    littleR = bigR / 8,
-			    littleOffsetMax = bigR - 3*littleR;
+			    littleOffsetMax = bigR - 3*littleR,
+			    startColor = rgb(0, 0, 255),
+			    midColor = rgb(176, 176, 176),
+			    endColor = rgb(255, 165, 0);
 
 		//> ANIMATION HELPERS
 			function toHex() {
@@ -137,10 +140,10 @@
 				// draw big coloured circle
 				if(offset < LIM) {
 					// big color between blue & grey
-					bigColor = '#' + fade(offset, LIM, rgb(0, 0, 255), rgb(176, 176, 176));
+					bigColor = '#' + fade(offset, LIM, startColor, midColor);
 				} else {
 					// big color between gray & orange
-					bigColor = '#' + fade(offset - LIM, LIM, rgb(176, 176, 176), rgb(255, 165, 0));
+					bigColor = '#' + fade(offset - LIM, LIM, midColor, endColor);
 				}
 				drawCircle(ctx, {
 					x: centre.x, y: centre.y, r: bigR, color: bigColor });
