@@ -17,7 +17,8 @@
 	<body>
 		<div class="anim">
 			<h2>Animation</h2>
-			<canvas id="timer-anim" width="320" height="240"></canvas>
+			<canvas id="timer-anim"></canvas>
+			<br>
 			<button onclick="startAnim()">Start animation!</startAnim>
 		</div>
 
@@ -90,7 +91,13 @@
 		</script>
 		<script>
 			var pi = Math.PI,
-			    LIM = 1000; // Half of the time the animation should take
+			    LIM = 1000, // Half of the time the animation should take
+			    canvasW = document.getElementById('timer-anim').width,
+			    canvasH = document.getElementById('timer-anim').height,
+			    centre = { x: canvasW/2, y: canvasH/2 },
+			    bigR = Math.min(canvasW, canvasH) / 2,
+			    littleR = bigR / 8,
+			    littleOffsetMax = bigR - 3*littleR;
 
 		//> ANIMATION HELPERS
 			function toHex() {
@@ -134,17 +141,17 @@
 					bigColor = '#' + fade(offset - LIM, LIM, rgb(176, 176, 176), rgb(255, 165, 0));
 				}
 				drawCircle(ctx, {
-					x: 160, y: 120, r: 120, color: bigColor });
+					x: centre.x, y: centre.y, r: bigR, color: bigColor });
 
 				// draw little white circle
 				littleOffset = {
-					x: 75 * Math.sin(pi*offset/LIM),
-					y: 75 * Math.cos(pi*offset/LIM),
+					x: littleOffsetMax * Math.sin(pi*offset/LIM),
+					y: littleOffsetMax * Math.cos(pi*offset/LIM),
 				};
 				drawCircle(ctx, {
-					x: 160 + littleOffset.x,
-					y: 120 - littleOffset.y,
-					r: 15,
+					x: centre.x + littleOffset.x,
+					y: centre.y - littleOffset.y,
+					r: littleR,
 					color: 'white'
 				});
 			}
