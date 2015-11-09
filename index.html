@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 14</h4>
+		<h4>Version: 15</h4>
 		<div class="anim">
 			<h2>Animation</h2>
 			<canvas id="timer-anim" width="320" height="320"></canvas>
@@ -77,7 +77,8 @@
 
 				return {
 					play_fresh_object: function() { loadSound().play(); },
-					play_cached_object: function() { cached.play(); },
+					play_cached_object: function() { cached.volume = 1; cached.play(); },
+					play_cached_silently: function() { cached.volume = 0; cached.play(); },
 					play_visible_element: function() {
 						document.getElementById('standard-audio').volume = 1;
 						document.getElementById('standard-audio').muted = false;
@@ -183,7 +184,7 @@
 				setTimeout(function() {
 					animate(canvas, ctx, Date.now());
 				}, 0);
-				new Audio('./blank.mp3').play();
+				audio.play_cached_silently();
 			}
 
 			function animate(canvas, ctx, start) {
