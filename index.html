@@ -1,7 +1,18 @@
 <html>
 	<head>
+		<style>
+			#timer-anim {
+				border: solid black 2px;
+			}
+		</style>
 	</head>
 	<body>
+		<div>
+			<h2>Animation</h2>
+			<canvas id="timer-anim" width="320" height="240"></canvas>
+			<button onclick="startAnim()">Start animation!</startAnim>
+		</div>
+
 		<div>
 			<h2>Audio</h2>
 			<div class="objurl">
@@ -68,6 +79,93 @@
 
 			setSrcBlob('objurl-video', './vid.mp4');
 			setSrcBlob('objurl-audio', './aud.mp3');
+		</script>
+		<script>
+			var pi = Math.PI,
+			    LIM = 3000; // Half of the time the animation should take
+
+		//> ANIMATION HELPERS
+			function toHex() {
+				var hex;
+				if(arguments.length === 1) {
+					hex = Math.round(arguments[0]).toString(16);
+					if(hex.length === 1) hex = '0' + hex;
+					return hex;
+				}
+				return toHex(arguments[0]) +
+						toHex(arguments[1]) +
+						toHex(arguments[2]);
+			}
+
+			function drawCircle(ctx, c) {
+				ctx.beginPath();
+				ctx.arc(c.x, c.y, c.r, 0, 2*pi, false);
+				ctx.fillStyle = c.color;
+				ctx.fill();
+			}
+
+			function rgb(r, g, b) { return { r:r, g:g, b:b }; }
+
+			function fade(offset, limit, start, end) {
+				return toHex(
+					start.r + ((end.r - start.r) * offset / limit),
+					start.g + ((end.g - start.g) * offset / limit),
+					start.b + ((end.b - start.b) * offset / limit));
+			}
+
+		//> THE ANIMATION ITSELF
+			function drawAnimation(canvas, context, start) {
+				var offset = Date.now() - start,
+					bigColor,
+					littleOffset;
+
+				// draw big coloured circle
+				if(offset < LIM) {
+					// big color between blue & grey
+					bigColor = '#' + fade(offset, LIM, rgb(0, 0, 255), rgb(176, 176, 176));
+				} else {
+					// big color between gray & orange
+					bigColor = '#' + fade(offset - LIM, LIM, rgb(176, 176, 176), rgb(255, 165, 0));
+				}
+				drawCircle(ctx, {
+					x: 160, y: 120, r: 120, color: bigColor });
+
+				// draw little white circle
+				littleOffset = {
+					x: 75 * Math.sin(pi*offset/LIM),
+					y: 75 * Math.cos(pi*offset/LIM),
+				};
+				drawCircle(ctx, {
+					x: 160 + littleOffset.x,
+					y: 120 - littleOffset.y,
+					r: 15,
+					color: 'white'
+				});
+			}
+
+			function startAnim() {
+				setTimeout(function() {
+					animate(canvas, ctx, Date.now());
+				}, 0);
+			}
+
+			function animate(canvas, ctx, start) {
+				drawAnimation(canvas, ctx, start);
+
+				if(Date.now() - start <= LIM*2) {
+					requestAnimationFrame(function() {
+						animate(canvas, ctx, start);
+					});
+				} else {
+					ping.play();
+				}
+			}
+
+			var canvas = document.getElementById('timer-anim');
+			var ctx = canvas.getContext('2d');
+			var ping = new Audio('./aud.mp3');
+
+			drawAnimation(canvas, ctx, Date.now());
 		</script>
 	</body>
 </html>
