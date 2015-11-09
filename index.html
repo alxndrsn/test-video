@@ -15,56 +15,9 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 18</h4>
+		<h4>Version: 19</h4>
 		<div class="anim">
-			<h2>Animation</h2>
 			<canvas id="timer-anim" width="320" height="320"></canvas>
-			<br>
-			<button onclick="startTimer()">Start animation!</button>
-		</div>
-
-		<div class="buttons">
-			<h2>Play:</h2>
-			<button onclick="audio.play_fresh_object()">Fresh Object</button>
-			<button onclick="audio.play_cached_object()">Cached Object</button>
-			<button onclick="audio.play_visible_element()">Visible Element</button>
-			<button onclick="audio.play_fresh_element()">Fresh Element</button>
-		</div>
-
-		<div class="audio">
-			<h2>Audio</h2>
-			<div class="objurl">
-				<h3>1. Object URL audio</h3>
-				<audio controls id="objurl-audio"></audio>
-			</div>
-
-			<div class="standard">
-				<h3>2. Standard audio</h3>
-				<audio id="standard-audio" src="./aud.mp3" controls preload="auto" autobuffer="true" muted="false"></audio>
-			</div>
-
-			<div class="click">
-				<h3>Play cached on click</h3>
-				<button onclick="audio.play_cached()">Play</button>
-			</div>
-
-			<div class="click">
-				<h3>Play fresh on click</h3>
-				<button onclick="audio.play_fresh()">Play</button>
-			</div>
-		</div>
-
-		<div class="video">
-			<h2>Video</h2>
-			<div class="objurl">
-				<h3>1. Object URL video</h3>
-				<video controls id="objurl-video"></video>
-			</div>
-
-			<div class="standard">
-				<h3>2. Standard video</h3>
-				<video src="./vid.mp4" controls></video>
-			</div>
 		</div>
 
 		<script>
@@ -73,42 +26,14 @@
 				window.cachedAudio = cached;
 
 				function loadSound() {
-					return new Audio('aud.mp3');
+					return new Audio('./aud.mp3');
 				}
 
 				return {
-					play_fresh_object: function() { loadSound().play(); },
 					play_cached_object: function() { cached.play(); },
 					play_cached_silently: function() { cached.play(); cached.pause(); },
-					play_visible_element: function() {
-						document.getElementById('standard-audio').volume = 1;
-						document.getElementById('standard-audio').muted = false;
-						document.getElementById('standard-audio').play();
-					},
-					play_fresh_element: function() {
-						var e = document.createElement('audio');
-						e.src = './aud.mp3';
-						e.play();
-					},
 				};
 			}());
-
-			function setSrcBlob(elementId, url) {
-				var request = new XMLHttpRequest();
-				request.onreadystatechange = function(event) {
-					if(request.readyState === XMLHttpRequest.DONE) {
-						var blob = request.response;
-						var objUrl = URL.createObjectURL(blob);
-						document.getElementById(elementId).setAttribute('src', objUrl);
-					}
-				}
-				request.responseType = 'blob';
-				request.open('GET', url, true);
-				request.send();
-			}
-
-			setSrcBlob('objurl-video', './vid.mp4');
-			setSrcBlob('objurl-audio', './aud.mp3');
 		</script>
 		<script>
 			var pi = Math.PI,
@@ -208,12 +133,14 @@
 
 			var canvas = document.getElementById('timer-anim');
 			var ctx = canvas.getContext('2d');
-			var running = false;
+			var running;
 
 			function resetTimer() {
 				running = false;
 				drawAnimation(canvas, ctx, 0);
 			}
+
+			// set up initial state
 			resetTimer();
 
 			canvas.addEventListener('click', function() {
