@@ -22,7 +22,7 @@
 			<br>
 			<canvas id="timer-anim" width="320" height="320"></canvas>
 			<br>
-			<button onclick="startAnim()">Start animation!</startAnim>
+			<button onclick="startTimer()">Start animation!</button>
 		</div>
 
 		<div class="audio">
@@ -161,7 +161,8 @@
 				});
 			}
 
-			function startAnim() {
+			function startTimer() {
+				running = true;
 				setTimeout(function() {
 					animate(canvas, ctx, Date.now());
 				}, 0);
@@ -170,6 +171,8 @@
 			function animate(canvas, ctx, start) {
 				var audio, offset = Date.now() - start;
 
+				if(!running) return;
+
 				if(offset < LIM*2) {
 					drawAnimation(canvas, ctx, offset);
 					requestAnimationFrame(function() {
@@ -177,6 +180,7 @@
 					});
 				} else {
 					drawAnimation(canvas, ctx, LIM*2);
+					running = false;
 					audio = document.createElement('audio');
 					audio.src = './aud.mp3';
 					audio.play();
@@ -185,11 +189,20 @@
 
 			var canvas = document.getElementById('timer-anim');
 			var ctx = canvas.getContext('2d');
+			var running = false;
 
-			drawAnimation(canvas, ctx, 0);
+			function resetTimer() {
+				running = false;
+				drawAnimation(canvas, ctx, 0);
+			}
+			resetTimer();
+
+			canvas.addEventListener('click', function() {
+				if(running) resetTimer();
+				else startTimer();
+			});
 
 			document.getElementById('standard-audio').volume = 1;
-			document.getElementById('standard-audio').play();
 		</script>
 	</body>
 </html>
