@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 4</h4>
+		<h4>Version: 5</h4>
 		<div class="anim">
 			<h2>Animation</h2>
 			<audio id="standard-audio" src="./aud.mp3" controls preload="auto" autobuffer="true" muted="false"></audio>
@@ -183,7 +183,7 @@
 
 			drawAnimation(canvas, ctx, 0);
 
-			document.getElementById('standard-audio').load();
+			document.getElementById('standard-audio').volume = 1;
 			document.getElementById('standard-audio').play();
 		</script>
 	</body>
