@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 6</h4>
+		<h4>Version: 9</h4>
 		<div class="anim">
 			<h2>Animation</h2>
 			<audio id="standard-audio" src="./aud.mp3" controls preload="auto" autobuffer="true" muted="false"></audio>
@@ -69,8 +69,18 @@
 				}
 
 				return {
-					play_fresh: function() { loadSound().play(); },
-					play_cached: function() { cached.play(); },
+					play_fresh_object: function() { loadSound().play(); },
+					play_cached_object: function() { cached.play(); },
+					play_visible_element: function() {
+						document.getElementById('standard-audio').volume = 1;
+						document.getElementById('standard-audio').muted = false;
+						document.getElementById('standard-audio').play();
+					},
+					play_fresh_element: function() {
+						var e = document.createElement('audio');
+						e.src = './aud.mp3';
+						e.play();
+					},
 				};
 			}());
 
@@ -169,7 +179,7 @@
 			}
 
 			function animate(canvas, ctx, start) {
-				var audio, offset = Date.now() - start;
+				var offset = Date.now() - start;
 
 				if(!running) return;
 
@@ -181,9 +191,8 @@
 				} else {
 					drawAnimation(canvas, ctx, LIM*2);
 					running = false;
-					audio = document.createElement('audio');
-					audio.src = './aud.mp3';
-					audio.play();
+
+					audio.play_visible_element();
 				}
 			}
 
@@ -202,7 +211,7 @@
 				else startTimer();
 			});
 
-			document.getElementById('standard-audio').volume = 1;
+			audio.play_visible_element();
 		</script>
 	</body>
 </html>
