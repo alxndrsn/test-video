@@ -114,10 +114,8 @@
 			}
 
 		//> THE ANIMATION ITSELF
-			function drawAnimation(canvas, context, start) {
-				var offset = Date.now() - start,
-					bigColor,
-					littleOffset;
+			function drawAnimation(canvas, context, offset) {
+				var bigColor, littleOffset;
 
 				// draw big coloured circle
 				if(offset < LIM) {
@@ -150,13 +148,15 @@
 			}
 
 			function animate(canvas, ctx, start) {
-				drawAnimation(canvas, ctx, start);
+				var offset = Date.now() - start;
 
-				if(Date.now() - start <= LIM*2) {
+				if(offset < LIM*2) {
+					drawAnimation(canvas, ctx, offset);
 					requestAnimationFrame(function() {
 						animate(canvas, ctx, start);
 					});
 				} else {
+					drawAnimation(canvas, ctx, LIM*2);
 					ping.play();
 				}
 			}
@@ -165,7 +165,7 @@
 			var ctx = canvas.getContext('2d');
 			var ping = new Audio('./aud.mp3');
 
-			drawAnimation(canvas, ctx, Date.now());
+			drawAnimation(canvas, ctx, 0);
 
 			ping.play();
 		</script>
