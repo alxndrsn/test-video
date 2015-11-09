@@ -13,6 +13,73 @@
 			<button onclick="startAnim()">Start animation!</startAnim>
 		</div>
 
+		<div>
+			<h2>Audio</h2>
+			<div class="objurl">
+				<h3>1. Object URL audio</h3>
+				<audio controls id="objurl-audio"></audio>
+			</div>
+
+			<div class="standard">
+				<h3>2. Standard audio</h3>
+				<audio src="./aud.mp3" controls></audio>
+			</div>
+
+			<div class="click">
+				<h3>Play cached on click</h3>
+				<button onclick="audio.play_cached()">Play</button>
+			</div>
+
+			<div class="click">
+				<h3>Play fresh on click</h3>
+				<button onclick="audio.play_fresh()">Play</button>
+			</div>
+		</div>
+
+		<div>
+			<h2>Video</h2>
+			<div class="objurl">
+				<h3>1. Object URL video</h3>
+				<video controls id="objurl-video"></video>
+			</div>
+
+			<div class="standard">
+				<h3>2. Standard video</h3>
+				<video src="./vid.mp4" controls></video>
+			</div>
+		</div>
+
+		<script>
+			var audio = (function() {
+				var cached = loadSound();
+
+				function loadSound() {
+					return new Audio('aud.mp3');
+				}
+
+				return {
+					play_fresh: function() { loadSound().play(); },
+					play_cached: function() { cached.play(); },
+				};
+			}());
+
+			function setSrcBlob(elementId, url) {
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function(event) {
+					if(request.readyState === XMLHttpRequest.DONE) {
+						var blob = request.response;
+						var objUrl = URL.createObjectURL(blob);
+						document.getElementById(elementId).setAttribute('src', objUrl);
+					}
+				}
+				request.responseType = 'blob';
+				request.open('GET', url, true);
+				request.send();
+			}
+
+			setSrcBlob('objurl-video', './vid.mp4');
+			setSrcBlob('objurl-audio', './aud.mp3');
+		</script>
 		<script>
 			var pi = Math.PI,
 			    LIM = 1000; // Half of the time the animation should take
