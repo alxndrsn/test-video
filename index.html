@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 5</h4>
+		<h4>Version: 6</h4>
 		<div class="anim">
 			<h2>Animation</h2>
 			<audio id="standard-audio" src="./aud.mp3" controls preload="auto" autobuffer="true" muted="false"></audio>
@@ -165,7 +165,7 @@
 			}
 
 			function animate(canvas, ctx, start) {
-				var offset = Date.now() - start;
+				var audio, offset = Date.now() - start;
 
 				if(offset < LIM*2) {
 					drawAnimation(canvas, ctx, offset);
@@ -174,7 +174,9 @@
 					});
 				} else {
 					drawAnimation(canvas, ctx, LIM*2);
-					document.getElementById('standard-audio').play();
+					audio = document.createElement('audio');
+					audio.src = './aud.mp3';
+					audio.play();
 				}
 			}
 
