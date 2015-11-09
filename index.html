@@ -22,7 +22,7 @@
 
 			<div class="standard">
 				<h3>2. Standard audio</h3>
-				<audio src="./aud.mp3" controls></audio>
+				<audio id="standard-audio" src="./aud.mp3" controls></audio>
 			</div>
 
 			<div class="click">
@@ -157,7 +157,7 @@
 					});
 				} else {
 					drawAnimation(canvas, ctx, LIM*2);
-					ping.play();
+					document.getElementById('standard-audio').play();
 				}
 			}
 
@@ -167,7 +167,7 @@
 
 			drawAnimation(canvas, ctx, 0);
 
-			ping.play();
+			document.getElementById('standard-audio').play();
 		</script>
 	</body>
 </html>
