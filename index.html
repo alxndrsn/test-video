@@ -4,16 +4,24 @@
 			#timer-anim {
 				border: solid black 2px;
 			}
+			div.audio, div.video {
+				display: none;
+			}
+			button {
+				font-size: 24px;
+				border: solid 2px black;
+				border-radius: 4px;
+			}
 		</style>
 	</head>
 	<body>
-		<div>
+		<div class="anim">
 			<h2>Animation</h2>
 			<canvas id="timer-anim" width="320" height="240"></canvas>
 			<button onclick="startAnim()">Start animation!</startAnim>
 		</div>
 
-		<div>
+		<div class="audio">
 			<h2>Audio</h2>
 			<div class="objurl">
 				<h3>1. Object URL audio</h3>
@@ -36,7 +44,7 @@
 			</div>
 		</div>
 
-		<div>
+		<div class="video">
 			<h2>Video</h2>
 			<div class="objurl">
 				<h3>1. Object URL video</h3>
