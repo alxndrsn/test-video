@@ -2,28 +2,49 @@
 	<head>
 	</head>
 	<body>
-		<div id="objurl">
-			<h1>1. Object URL video</h1>
-			<video controls id="objurl-video"></video>
+		<div>
+			<h2>Audio</h2>
+			<div class="objurl">
+				<h3>1. Object URL audio</h3>
+				<audio controls id="objurl-audio"></audio>
+			</div>
+
+			<div class="standard">
+				<h3>2. Standard audio</h3>
+				<audio src="./aud.mp3" controls></audio>
+			</div>
 		</div>
 
-		<div id="standard">
-			<h1>2. Standard video</h1>
-			<video src="./vid.mp4" controls></video>
+		<div>
+			<h2>Video</h2>
+			<div class="objurl">
+				<h3>1. Object URL video</h3>
+				<video controls id="objurl-video"></video>
+			</div>
+
+			<div class="standard">
+				<h3>2. Standard video</h3>
+				<video src="./vid.mp4" controls></video>
+			</div>
 		</div>
 
 		<script>
-			var request = new XMLHttpRequest();
-			request.onreadystatechange = function(event) {
-				if(request.readyState === XMLHttpRequest.DONE) {
-					var blob = request.response;
-					var url = URL.createObjectURL(blob);
-					document.getElementById('objurl-video').setAttribute('src', url);
+			function setSrcBlob(elementId, url) {
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function(event) {
+					if(request.readyState === XMLHttpRequest.DONE) {
+						var blob = request.response;
+						var objUrl = URL.createObjectURL(blob);
+						document.getElementById(elementId).setAttribute('src', objUrl);
+					}
 				}
+				request.responseType = 'blob';
+				request.open('GET', url, true);
+				request.send();
 			}
-			request.responseType = 'blob';
-			request.open('GET', './vid.mp4', true);
-			request.send();
+
+			setSrcBlob('objurl-video', './vid.mp4');
+			setSrcBlob('objurl-audio', './aud.mp3');
 		</script>
 	</body>
 </html>
