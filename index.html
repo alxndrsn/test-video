@@ -13,6 +13,16 @@
 				<h3>2. Standard audio</h3>
 				<audio src="./aud.mp3" controls></audio>
 			</div>
+
+			<div class="click">
+				<h3>Play cached on click</h3>
+				<button onclick="audio.play_cached()">Play</button>
+			</div>
+
+			<div class="click">
+				<h3>Play fresh on click</h3>
+				<button onclick="audio.play_fresh()">Play</button>
+			</div>
 		</div>
 
 		<div>
@@ -29,6 +39,19 @@
 		</div>
 
 		<script>
+			var audio = (function() {
+				var cached = loadSound();
+
+				function loadSound() {
+					return new Audio('aud.mp3');
+				}
+
+				return {
+					play_fresh: function() { loadSound().play(); },
+					play_cached: function() { cached.play(); },
+				};
+			}());
+
 			function setSrcBlob(elementId, url) {
 				var request = new XMLHttpRequest();
 				request.onreadystatechange = function(event) {
