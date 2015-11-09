@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 13</h4>
+		<h4>Version: 14</h4>
 		<div class="anim">
 			<h2>Animation</h2>
 			<canvas id="timer-anim" width="320" height="320"></canvas>
@@ -180,10 +180,10 @@
 
 			function startTimer() {
 				running = true;
-				audio.play_cached_object();
 				setTimeout(function() {
 					animate(canvas, ctx, Date.now());
 				}, 0);
+				new Audio('./blank.mp3').play();
 			}
 
 			function animate(canvas, ctx, start) {
