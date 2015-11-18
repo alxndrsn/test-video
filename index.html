@@ -21,6 +21,18 @@
 		</div>
 
 		<script>
+			function parseParams() {
+				var params = {};
+				if(location.search) {
+					location.search.substr(1).split('&').forEach(function(p) {
+						var parts = p.split('=');
+						params[parts[0]] = parts[1];
+					});
+				}
+				return params;
+			}
+		</script>
+		<script>
 			var audio = (function() {
 				var cached = loadSound();
 				window.cachedAudio = cached;
@@ -37,7 +49,7 @@
 		</script>
 		<script>
 			var pi = Math.PI,
-			    LIM = 3000, // Half of the time the animation should take
+			    LIM = parseParams().duration * 500 || 3000, // Half of the time the animation should take, in milliseconds
 			    canvasW = document.getElementById('timer-anim').width,
 			    canvasH = document.getElementById('timer-anim').height,
 			    centre = { x: canvasW/2, y: canvasH/2 },
