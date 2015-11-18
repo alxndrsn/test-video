@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 20</h4>
+		<h4>Version: 21</h4>
 		<div class="anim">
 			<canvas id="timer-anim" width="320" height="320"></canvas>
 		</div>
@@ -34,16 +34,28 @@
 		</script>
 		<script>
 			var audio = (function() {
-				var cached = loadSound();
-				window.cachedAudio = cached;
+				var cached;
+
+				if(!isAndroid()) {
+					cached = loadSound();
+				}
+
+				function isAndroid() {
+					return !!window.medicmobile_android;
+				}
 
 				function loadSound() {
 					return new Audio('./aud.mp3');
 				}
 
 				return {
-					play_cached_object: function() { cached.play(); },
-					play_cached_silently: function() { cached.play(); cached.pause(); },
+					play: function() {
+						if(isAndroid()) {
+							window.medicmobile_android.playAlert();
+						} else {
+							cached.play();
+						}
+					},
 				};
 			}());
 		</script>
@@ -122,7 +134,6 @@
 				setTimeout(function() {
 					animate(Date.now());
 				}, 0);
-				audio.play_cached_silently();
 			}
 
 			function animate(start) {
@@ -139,7 +150,7 @@
 					drawBigCircle(LIM*2);
 					running = false;
 
-					audio.play_cached_object();
+					audio.play();
 				}
 			}
 
