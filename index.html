@@ -15,10 +15,11 @@
 		</style>
 	</head>
 	<body>
-		<h4>Version: 21</h4>
+		<h4>Version: 22</h4>
 		<div class="anim">
 			<canvas id="timer-anim" width="320" height="320"></canvas>
 		</div>
+		<h4>Is android? <span id="is-android"></span></h4>
 
 		<script>
 			function parseParams() {
@@ -39,6 +40,8 @@
 				if(!isAndroid()) {
 					cached = loadSound();
 				}
+
+				document.getElementById('is-android').innerHTML = isAndroid();
 
 				function isAndroid() {
 					return !!window.medicmobile_android;
