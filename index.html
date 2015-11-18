@@ -90,11 +90,11 @@
 			}
 
 		//> THE ANIMATION ITSELF
-			function drawAnimation(canvas, context, offset) {
-				drawBigCircle(canvas, context, offset);
-				drawLittleCircle(canvas, context, offset);
+			function drawAnimation(offset) {
+				drawBigCircle(offset);
+				drawLittleCircle(offset);
 			}
-			function drawBigCircle(canvas, context, offset) {
+			function drawBigCircle(offset) {
 				var bigColor = '#' + (offset < LIM ?
 					// big color between blue & grey
 						fade(offset, LIM, startColor, midColor):
@@ -103,7 +103,7 @@
 				drawCircle(ctx, {
 					x: centre.x, y: centre.y, r: bigR, color: bigColor });
 			}
-			function drawLittleCircle(canvas, context, offset) {
+			function drawLittleCircle(offset) {
 				// draw little white circle
 				var littleOffset = {
 					x: littleOffsetMax * Math.sin(pi*offset/LIM),
@@ -120,23 +120,23 @@
 			function startTimer() {
 				running = true;
 				setTimeout(function() {
-					animate(canvas, ctx, Date.now());
+					animate(Date.now());
 				}, 0);
 				audio.play_cached_silently();
 			}
 
-			function animate(canvas, ctx, start) {
+			function animate(start) {
 				var offset = Date.now() - start;
 
 				if(!running) return;
 
 				if(offset < LIM*2) {
-					drawAnimation(canvas, ctx, offset);
+					drawAnimation(offset);
 					requestAnimationFrame(function() {
-						animate(canvas, ctx, start);
+						animate(start);
 					});
 				} else {
-					drawBigCircle(canvas, ctx, LIM*2);
+					drawBigCircle(LIM*2);
 					running = false;
 
 					audio.play_cached_object();
@@ -149,8 +149,8 @@
 
 			function resetTimer() {
 				running = false;
-				drawAnimation(canvas, ctx, 0);
-				drawBigCircle(canvas, ctx, 0);
+				drawAnimation(0);
+				drawBigCircle(0);
 			}
 
 			// set up initial state
